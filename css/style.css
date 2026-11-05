@@ -74,7 +74,7 @@ body {
     height: 100%;
 
     /* 上下の余白を画面の高さ(vh)に合わせて伸縮（最小20px〜最大60px） */
-    /* padding: clamp(20px, 6vh, 60px) 20px; */
+    padding: clamp(20px, 6vh, 60px) 20px;
     box-sizing: border-box;
 
 
@@ -169,13 +169,13 @@ body {
 
 /* タイトル部の設定 */
 .h__text {
-    font-size: 72px;
+    font-size: 64px;
     color: #ffffff;
-    line-height: 0.9;
+    line-height: 0.85;
     letter-spacing: -0.03em;
     margin-left: 5px;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    /* margin-top: 10px; */
+    margin-bottom: 15px;
 }
 
 .h__text__ROCK,
@@ -374,7 +374,7 @@ body {
     color: #ffffff;
     /* text-align: center; */
     margin-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 
@@ -385,8 +385,8 @@ body {
     font-size: 2.5rem;
     /* 全体のベースサイズ */
     border: 1px #ffffff solid;
-    padding: 10px 75px 10px 75px;
-    margin-bottom: 20px;
+    padding: 5px 60px 5px 60px;
+    margin-bottom: 10px;
     color: #ffffff;
 }
 
@@ -398,8 +398,8 @@ body {
     align-items: center;
     font-size: 2.5rem;
     border: 1px #ffffff solid;
-    padding: 10px 75px 10px 75px;
-    margin-bottom: 20px;
+    padding: 5px 60px 5px 60px;
+    margin-bottom: 10px;
     
     /* ベースは美しい純白 */
     color: #ffffff; 
@@ -481,7 +481,7 @@ body {
 
 
 .m__choose {
-    font-size: 20px;
+    font-size: 18px;
     color: #000000;
     text-align: center;
     margin-bottom: 5px;
@@ -497,7 +497,7 @@ body {
 .m__jam__card {
     /* background-color: rgb(123, 255, 0); */
     width: 110px;
-    height: 180px;
+    height: 160px;
     text-align: center;
     border: #000000 solid 3px;
 }
@@ -507,7 +507,7 @@ body {
 }
 
 .m__jam__card img {
-    width: 80px;
+    width: 67px;
     padding: 10px 0;
 }
 
@@ -521,12 +521,12 @@ body {
 
 /* チート設定 */
 .CHEAT{
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 700;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 10px;
     gap: 5px;
     /* background-color: #fff; */
 }
