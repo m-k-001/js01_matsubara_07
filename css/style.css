@@ -73,8 +73,8 @@ body {
     /* PC大画面でもUIが横に広がりすぎないよう制限 */
     height: 100%;
 
-    /* 上下の余白を画面の高さ(vh)に合わせて伸縮（最小20px〜最大60px） */
-    padding: clamp(20px, 6vh, 60px) 20px;
+    /* 上下の余白を画面の高さ(vh)に合わせて伸縮（最小0px〜最大60px） */
+    padding: clamp(0px, 6vh, 60px) 20px;
     box-sizing: border-box;
 
 
