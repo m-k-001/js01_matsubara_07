@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/jquery-2.1.3.min.js"></script>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Dela+Gothic+One&display=swap" rel="stylesheet">
+    <link href="https://googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>THE LAST ROOM</title>
+</head>
+
+<body>
+
+
+
+    <div class="bg-video">
+                    <!-- テスト用 ほんとはここ ↓ active -->
+        <video id="v-1th" class="bg-video__item active" src="./img/1th.mp4" playsinline muted preload="auto"></video>
+        <video id="v-2th" class="bg-video__item" src="./img/2th.mp4" playsinline muted preload="auto"></video>
+
+                    <!-- テスト時差し込み ↓ active -->
+        <video id="v-3th_Toilet" class="bg-video__item" src="./img/3th_Toilet.mp4" playsinline
+            mutedpreload="auto"></video>
+        <video id="v-3th_pc" class="bg-video__item" src="./img/3th_pc.mp4" playsinline muted preload="auto"></video>
+        <video id="v-3th_brain" class="bg-video__item" src="./img/3th_brain.mp4" playsinline
+            mutedpreload="auto"></video>
+
+    </div>
+
+
+    <div class="ui-wrap">
+
+        <div class="ui-container">
+
+            <header>
+                <h1 class="h__text">
+                    <span id="h__text__ROCK" class="h__text__ROCK">ROCK</span>
+                    <span id="h__text__PAPER" class="h__text__PAPER">PAPER</span>
+                    <span id="h__text__SCISSORS" class="h__text__SCISSORS">SCISSORS</span>
+                </h1>
+            </header>
+
+
+            <div id="start-screen" class="slide-wrapper">
+                <div class="description-box">
+                    <p class="start-text">THE LAST ROOM</p>
+                    <!-- <p class="start-text">A WALL STANDS BEFORE YOU</p> -->
+                    <!-- <p class="start-text">THE ROGUE AI LURKS BEYOND…</p> -->
+                    <!-- <p class="start-text">THEN, A SUDDEN WHISPER:</p> -->
+                    <!-- <p class="start-text">Win three rounds of rock-paper-scissors...</p> -->
+
+                    <p class="start-text-ja">MISSION : 3 WINS VS AI</p>
+                    <!-- <p class="start-text-ja">WHERE is AI ?</p>
+                    <p>　</p>
+                    <p class="start-text-ja">囁く声…</p>
+                    <p>　</p>
+                    <p class="start-text-ja">「 3度 勝て 」</p> -->
+                </div>
+
+                <div class="c-btn">
+                    <button id="start_btn" class="action-trigger-btn">THE BATTLE BEGINS NOW</button>
+                </div>
+
+
+            </div>
+
+            <div id="game-play-screen" class="slide-wrapper hidden-screen">
+                <main>
+                    <section>
+
+                         <div class="m__box"></div>
+                       
+                        <p class="m__sub-text">the final battle</p>
+                        <h2 class="m__main-text">YOU vs AI</h2>
+                        <div class="m__ai">
+                            <p class="m__ai__text">AI'S CHOICE :</p>
+                            <!-- <div class="pc_hands" id="pc_hands"> -->
+                            <!-- 【追加】高くなったり低くなったりする■のコンテナ -->
+                            <div id="pc_hands" class="pc_hands">
+                                <div id="pc_hands-original" class="pc_hands-original">
+                                    <div class="m__bar"></div>
+                                    <div class="m__bar"></div>
+                                    <div class="m__bar"></div>
+                                    <div class="m__bar"></div>
+                                    <div class="m__bar"></div>
+                                    <div class="m__bar"></div>
+                                </div>
+                                <!-- クリックした瞬間に、Aの上に重ねて表示したい文字（最初は非表示） -->
+                                <div id="overlay_text" style="display: none;">THINKING...</div>
+                                <div id="pc_hands-result" style="display: none;"></div>
+                            </div>
+                            <!-- </div> -->
+                        </div>
+                       
+                        <div class="m-wrap">
+                            <p class="m__item">JUDGMENT</p>
+                            <p class="m__JUDGMENT" id="judgment">pending...</p>
+                            <p id="m__fraction" class="m__fraction">
+                                <span class="m__fraction__win">WINS</span>
+                                                                <!-- テスト用差し替え ↓ 0 -->
+                                <span class="m__fraction__num" id="m__fraction__num">0</span>
+                                <span class="m__fraction__slash">/</span>
+                                <span class="m__fraction__den">3</span>
+                            </p>
+                        </div>
+
+                         <div class="m__box"></div>
+
+                    </section>
+                </main>
+                <footer>
+                    <p class="m__choose">CHOOSE YOUR MOVE ▼</p>
+                    <ul class="m__jan">
+                        <li class="m__jam__card" id="gu_btn">
+                            <img src="./img/hand_ROCK.svg" alt="">
+                            <div class="m__jam__card__text">ROCK</div>
+                        </li>
+                        <li class="m__jam__card" id="par_btn">
+                            <img src="./img/hand_PAPER.svg" alt="">
+                            <div class="m__jam__card__text">PAPER</div>
+                        </li>
+                        <li class="m__jam__card" id="cho_btn">
+                            <img src="./img/hando_SCISSORS.svg" alt="">
+                            <div class="m__jam__card__text">SCISSORS</div>
+                        </li>
+                    </ul>
+
+                    <div class="CHEAT">
+
+                        <p>CHEAT</p>
+                        <p>God mode</p>
+                        <div class="God_mode">
+                            <div id="God_mode_on" class="CHEAT_button">ON</div>
+                            <div id="God_mode_off" class="CHEAT_button CHEAT_select">OFF</div>
+                        </div>
+
+                        <p>Lock an ending</p>
+                        <div class="Lock_end">
+                            <div id="lock_end_none" class="CHEAT_button CHEAT_select">None</div>
+                            <div id="lock_end_1th" class="CHEAT_button">End A</div>
+                            <div id="lock_end_2th" class="CHEAT_button">End B</div>
+                            <div id="lock_end_3th" class="CHEAT_button">End C</div>
+                        </div>
+
+                    </div>
+
+                </footer>
+            </div>
+
+
+            <div id="end-v-3th_Toilet" class="slide-wrapper hidden-screen">
+                <div class="end-description-box">
+                    <p class="end-text">
+                        Finally in, <br>
+                        but WRONG ROOM!<br>
+                    </p>
+                </div>
+                <div class="end-btn">
+                    <button id="end_re-btn" class="end_re-btn">Try again !</button>
+                </div>
+            </div>
+
+            <div id="end-v-3th_pc" class="slide-wrapper hidden-screen">
+                <div class="end-description-box">
+                    <p class="end-text">
+                        The real battle<br>
+                        starts now!<br>
+                    </p>
+                </div>
+                <div class="end-btn">
+                    <button id="end_re-btn" class="end_re-btn">Try again !</button>
+                </div>
+            </div>
+
+            <div id="end-v-3th_brain" class="slide-wrapper hidden-screen">
+                <div class="end-description-box">
+                    <p class="end-text">
+                        AI was the<br>
+                        human brain...<br>
+                    </p>
+                </div>
+                <div class="end-btn">
+                    <button id="end_re-btn" class="end_re-btn">Try again !</button>
+                </div>
+            </div>
+
+            
+
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="./js/function.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
