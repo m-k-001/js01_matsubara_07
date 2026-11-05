@@ -1,0 +1,605 @@
+/* 共通設定 */
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    /* スクロールバーを完全に消す */
+    background-color: #000;
+    font-family: 'Dela Gothic One', sans-serif;
+    font-weight: 900;
+
+}
+
+
+/* 背面 動画レイヤー設定 */
+.bg-video {
+    position: fixed;
+    /* 画面にピン留めして固定 */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    /* 画面の横幅いっぱいに広げる */
+    height: 100vh;
+    /* 画面の高さいっぱいに広げる */
+    z-index: 1;
+    /* 一番後ろ */
+}
+
+.bg-video__item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    /* 16:9動画を比率維持して全画面へ（スマホ時は左右を自動カット） */
+    object-fit: cover;
+
+    /* 動画内の重要要素（キャラクター等）が中央にあるならセンター合わせ */
+    object-position: center;
+
+    /* 必要ない映像を消す */
+    opacity: 0;
+}
+
+/* JavaScriptでこのクラスがついた動画だけが表に出る */
+.bg-video__item.active {
+    opacity: 1;
+}
+
+
+
+/* 前面 コンテンツレイヤー設定 */
+/* 画面全体を覆う、ボタンを配置するための透明な座布団 */
+.ui-wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
+    /* 動画レイヤー(z-index:1)より手前に配置 */
+    display: flex;
+    justify-content: center;
+
+}
+
+/* 文字やボタンが収まる「本体枠」 */
+.ui-container {
+    width: 100%;
+    max-width: 500px;
+    /* PC大画面でもUIが横に広がりすぎないよう制限 */
+    height: 100%;
+
+    /* 上下の余白を画面の高さ(vh)に合わせて伸縮（最小20px〜最大60px） */
+    /* padding: clamp(20px, 6vh, 60px) 20px; */
+    box-sizing: border-box;
+
+
+    /* ゲーム開始時のスライド用 */
+    display: grid;
+    grid-template-rows: auto 1fr;
+    /* 上（ヘッダー）は自動、下（中身）は残りの余白ぴったりにする */
+    overflow: hidden;
+    /* はみ出たゲーム画面を隠す */
+    height: 100vh;
+}
+
+
+/* ゲーム開始時のスライド用 */
+/* 2つの画面を丸ごと包む外箱（中のFlexboxを邪魔しない透明なラップ） */
+.slide-wrapper {
+    grid-row: 2;
+    grid-column: 1;
+
+    width: 100%;
+    height: 100%;
+
+    /* 滑らかに左右に動かす設定 */
+    transition: transform 2.0s cubic-bezier(0.25, 1, 0.5, 1), opacity 0s;
+}
+
+/* ゲーム画面を最初、右側の舞台袖に弾いておくためのクラス */
+.hidden-screen {
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+    /* 隠れている間は触らせない */
+}
+
+/* ボタンを押した後にjQueryで付けるクラス */
+.slide-out-left {
+    transform: translateX(-120%);
+}
+
+.slide-in-center {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+    /* 画面が入ってきたら触れるようにする */
+}
+
+
+
+/* イントロ用設定 */
+.start-text {
+    color: #ffffff;
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1.4;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.start-text-ja {
+    font-family: 'Syncopate', 'Noto Sans JP', sans-serif;
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.2;
+    text-align: center;
+    /* margin-top: 30px; */
+}
+
+.c-btn {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.action-trigger-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #fff;
+    background-color: transparent;
+    border: solid 1px;
+    cursor: pointer;
+}
+
+.action-trigger-btn:hover {
+    background-color: #ffffff71;
+}
+
+
+
+
+
+/* タイトル部の設定 */
+.h__text {
+    font-size: 72px;
+    color: #ffffff;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    margin-left: 5px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.h__text__ROCK,
+.h__text__PAPER,
+.h__text__SCISSORS {
+    display: block;
+    opacity: 0; /* クリック前は隠す */
+}
+
+.slide-in-ROCK{
+    opacity: 0; /* クリック前は隠す */
+     /* アニメーションの設定 (名前、動く時間、動きの加速、ディレイ、前後の状態キープ) */
+    animation: slideIn 2.0s ease-out 0.0s both;
+}
+
+.slide-in-PAPER{
+    opacity: 0; /* クリック前は隠す */
+     /* アニメーションの設定 (名前、動く時間、動きの加速、ディレイ、前後の状態キープ) */
+    animation: slideIn 2.0s ease-out 0.5s both;
+}
+
+.slide-in-SCISSORS{
+    opacity: 0; /* クリック前は隠す */
+     /* アニメーションの設定 (名前、動く時間、動きの加速、ディレイ、前後の状態キープ) */
+    animation: slideIn 2.0s ease-out 1.2s both;
+}
+
+/* アニメーションの動きの定義 */
+@keyframes slideIn {
+    0% {
+        transform: translateX(-100vw);
+        /* 画面の左端（外側）に配置 */
+        opacity: 0;
+        
+    }
+    0.01%{
+        /* 動き出した瞬間に一瞬で100%の濃さにする */
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(0);
+        /* 元の文字の位置に戻る */
+        opacity: 1;
+    
+    }
+}
+
+
+
+
+/* 各コンテンツの設定 */
+.m__box {
+    background-color: #fff;
+    height: 1px;
+    margin-bottom: 10px;
+}
+
+.m__sub-text {
+    font-size: 12px;
+    color: #ffffff;
+    text-align: center;
+    margin-top: 6px;
+}
+
+
+
+.m__main-text {
+    font-size: 24px;
+    color: #ffffff;
+    text-align: center;
+}
+
+.m__ai {
+    height: 60px;
+    color: #ffffff;
+    text-align: center;
+    margin: 2px 50px 6px 50px;
+    padding: 5px 0px;
+    line-height: 1.2;
+    border: #ffffff solid 1px;
+}
+
+.m__ai__text {
+    font-size: 18px;
+}
+
+.pc_hands {
+    font-size: 28px;
+    margin-top: 4px;
+
+    position: relative;
+    /* これが基準になります */
+    display: inline-block;
+    /* 枠の大きさを中身に合わせる（お好みで幅指定してもOK） */
+}
+
+/* 上に重ねる文字のスタイル */
+#overlay_text {
+    position: absolute;
+    /* 基準の枠に対して絶対配置にする */
+    top: 50%;
+    /* 上から50%の位置 */
+    left: 50%;
+    /* 左から50%の位置 */
+    transform: translate(-50%, -50%);
+    /* ぴったり真ん中に合わせる */
+
+    font-size: 16px;
+    color: #000000;
+    padding: 5px 10px;
+    white-space: nowrap;
+    /* 文字の折り返しを防ぐ */
+}
+
+
+/* ■を横に並べるコンテナ */
+.pc_hands-original {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    /* 下揃えにすることで上に伸びるようにする */
+    height: 30px;
+    /* 最大の高さ */
+    gap: 10px;
+    /* ■同士のすき間 */
+    /* margin: 5px auto; */
+    /* background-color: aquamarine; */
+}
+
+/* ■（棒）の共通スタイル */
+.m__bar {
+    width: 30px;
+    height: 0px;
+    /* 初期状態の高さ */
+    background-color: #ffffff;
+    animation: wave 1.35s ease-in-out infinite;
+    /* 1.35sかけて無限ループ */
+}
+
+/* 各■の動くタイミングを少しずつずらす */
+.m__bar:nth-child(1) {
+    animation-delay: 0.0s;
+}
+
+.m__bar:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.m__bar:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.m__bar:nth-child(4) {
+    animation-delay: 0.45s;
+}
+
+.m__bar:nth-child(5) {
+    animation-delay: 0.6s;
+}
+
+.m__bar:nth-child(6) {
+    animation-delay: 0.75s;
+}
+
+/* 上下に伸び縮みするアニメーション定義 */
+@keyframes wave {
+
+    0%,
+    100% {
+        height: 0px;
+        /* 一番低いとき */
+    }
+
+    50% {
+        height: 30px;
+        /* 一番高いとき */
+    }
+}
+
+
+.m-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.m__item {
+    font-size: 21px;
+    color: #ffffff;
+    /* text-align: center; */
+    margin-top: 10px;
+}
+
+.m__JUDGMENT {
+    font-size: 21px;
+    color: #ffffff;
+    /* text-align: center; */
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+
+/* 勝利回数の調整 */
+.m__fraction {
+    display: inline-flex;
+    align-items: center;
+    font-size: 2.5rem;
+    /* 全体のベースサイズ */
+    border: 1px #ffffff solid;
+    padding: 10px 75px 10px 75px;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+
+
+/* ３回勝った時用のCSS */
+.m__fraction-v {
+    display: inline-flex;
+    align-items: center;
+    font-size: 2.5rem;
+    border: 1px #ffffff solid;
+    padding: 10px 75px 10px 75px;
+    margin-bottom: 20px;
+    
+    /* ベースは美しい純白 */
+    color: #ffffff; 
+    
+    
+    /* --- 光が流れるための設定 --- */
+    position: relative; 
+    overflow: hidden;   /* 枠からはみ出た光を隠す */
+}
+/* 強力に発光する光の帯（1.4秒サイクルの心地よい速度） */
+.m__fraction-v::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -200%;
+    width: 120%;
+    height: 100%;
+    
+    background: linear-gradient(
+        90deg, 
+        rgba(255, 255, 255, 0) 0%, 
+        rgba(255, 255, 255, 0.9) 50%, 
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-25deg);
+    
+    /* 白い光の帯そのものを強力に発光（グロウ効果） */
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.9)) 
+            drop-shadow(0 0 30px rgba(255, 255, 255, 0.6));
+    
+    /* 1.4秒サイクル ＋ 加減速（ease-in-out） */
+    animation: shine 1.4s infinite ease-in-out;
+}
+/* 左から右へ動かすアニメーション */
+@keyframes shine {
+    0% {
+        left: -200%;
+    }
+    100% {
+        left: 200%; 
+    }
+}
+
+
+
+
+.m__fraction__win {
+    margin-right: 20px;
+}
+
+/* 分子（上の数字） */
+.m__fraction__num {
+    font-size: 0.9em;
+    /* 小さくする */
+    transform: translateY(0.04em);
+    /* 上に浮かせる */
+}
+
+/* スラッシュ（中央の斜線） */
+.m__fraction__slash {
+    font-size: 0.8em;
+    /* スラッシュを少し大きくして見栄えを良くする */
+    margin: 0em 0.4em;
+    /* 左右に少しだけ隙間を作る */
+    transform: translateY(-0.06em);
+    /* 上に浮かせる */
+}
+
+/* 分母（下の数字） */
+.m__fraction__den {
+    font-size: 0.9em;
+    /* 小さくする */
+    transform: translateY(0.04em);
+    /* 下に下げる */
+}
+
+
+
+
+
+.m__choose {
+    font-size: 20px;
+    color: #000000;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.m__jan {
+    display: flex;
+    justify-content: center;
+    column-gap: 10px;
+    /* background-color: aquamarine; */
+}
+
+.m__jam__card {
+    /* background-color: rgb(123, 255, 0); */
+    width: 110px;
+    height: 180px;
+    text-align: center;
+    border: #000000 solid 3px;
+}
+
+.m__jam__card:hover {
+    background-color: #ffffff88;
+}
+
+.m__jam__card img {
+    width: 80px;
+    padding: 10px 0;
+}
+
+.m__jam__card__text {
+    color: #ffffff;
+    background-color: #000000;
+    padding: 10px;
+}
+
+
+
+/* チート設定 */
+.CHEAT{
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    gap: 5px;
+    /* background-color: #fff; */
+}
+
+.God_mode{
+    display: flex;
+}
+
+/* チートON　じゃんけんカードの色変更 */
+.God_mode_on_card{
+    border: #FF2A2A solid 3px;
+}
+
+.God_mode_on_text{
+    color: #000;
+    background-color: #FF2A2A;
+}
+
+.Lock_end{
+    display: flex;
+}
+
+.CHEAT_button{
+    border: #000 1px solid;
+    width: 70px;
+    text-align: center;
+    padding: 1px 0 3px 0;
+}
+
+.CHEAT_button:hover {
+    background-color: #ffffff88;
+}
+
+.CHEAT_select{
+    background: #000000;
+    color: #ffffff;
+}
+
+/* チートonのときだけ赤 */
+.CHEAT_select_red{
+    background-color: #FF2A2A;
+    color: #ffffff;
+}
+
+
+
+
+/* エンドクレジット設定 */
+.end-text{
+    font-size: 38px;
+    color: #ffffff;
+    line-height: 1.5;
+    text-align: end;
+    margin-top: 200px;
+    margin-bottom: 50px;
+}
+
+.end-btn {
+    text-align: end;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.end_re-btn {
+    display: inline-block;
+    padding: 10px 25px;
+    font-size: 20px;
+    color: #fff;
+    background-color: transparent;
+    border: solid 1px;
+    cursor: pointer;
+}
+
+.end_re-btn:hover {
+    background-color: #ffffff71;
+}
